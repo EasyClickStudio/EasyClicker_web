@@ -43,7 +43,6 @@ This extension is fully compatible with all Chromium-based browsers as well as M
    - **Brave Browser**: `brave://extensions/`
    - **Opera / Opera GX**: `opera://extensions/`
    - **Vivaldi**: `vivaldi://extensions/`
-   - **Yandex Browser**: `browser://extensions/`
    - **Mozilla Firefox**: `about:debugging#/runtime/this-firefox`
 
 4. Enable **Developer mode** in the top right corner of the page (for Chromium-based browsers).
