@@ -13,11 +13,6 @@ This extension is fully compatible with all Chromium-based browsers as well as M
 - Brave Browser
 - Opera / Opera GX
 - Vivaldi
-- Yandex Browser
-- Arc Browser
-- Sidekick
-- Ungoogled Chromium / Thorium
-- Kiwi Browser (Android)
 - Mozilla Firefox
 
 ---
