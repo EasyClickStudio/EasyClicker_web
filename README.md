@@ -10,7 +10,7 @@ EasyClicker Web is a lightweight and reliable browser extension designed for cli
 - Custom Click Intervals: Set your preferred delay between clicks in milliseconds.
 - Random Time Offset: Adds a random delay to simulate natural human clicking behavior.
 - Global Hotkey Control: Quickly start and stop clicking using a single key (default is F8).
-- Multi-Layout Support: Hotkeys work reliably regardless of your active keyboard layout (e.g., English or Russian).
+- Multi-Layout Support: Hotkeys work reliably regardless of your active keyboard layout (e.g., English or any other).
 - Clean Dark Interface: Simple UI designed for fast setup.
 
 ---
