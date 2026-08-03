@@ -75,4 +75,4 @@ This extension is fully compatible with all Chromium-based browsers as well as M
 
 ## License
 
-Copyright (c) 2026. All Rights Reserved. See the LICENSE file for details.
+Copyright EasyClick studio (c) 2026. All Rights Reserved. See the LICENSE file for details.
