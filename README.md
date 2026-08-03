@@ -4,13 +4,31 @@ EasyClicker Web is a lightweight and reliable browser extension designed for cli
 
 ---
 
+## Supported Browsers
+
+This extension is fully compatible with all Chromium-based browsers as well as Mozilla Firefox:
+
+- Google Chrome
+- Microsoft Edge
+- Brave Browser
+- Opera / Opera GX
+- Vivaldi
+- Yandex Browser
+- Arc Browser
+- Sidekick
+- Ungoogled Chromium / Thorium
+- Kiwi Browser (Android)
+- Mozilla Firefox
+
+---
+
 ## Features
 
 - Fast and Lightweight: Operates locally within your browser without slowing down your system.
 - Custom Click Intervals: Set your preferred delay between clicks in milliseconds.
 - Random Time Offset: Adds a random delay to simulate natural human clicking behavior.
 - Global Hotkey Control: Quickly start and stop clicking using a single key (default is F8).
-- Multi-Layout Support: Hotkeys work reliably regardless of your active keyboard layout (e.g., English or any other).
+- Multi-Layout Support: Hotkeys work reliably regardless of your active keyboard layout (e.g., English or Russian).
 - Clean Dark Interface: Simple UI designed for fast setup.
 
 ---
@@ -19,12 +37,18 @@ EasyClicker Web is a lightweight and reliable browser extension designed for cli
 
 1. Download or clone this repository to your computer.
 2. Extract the ZIP file to a folder of your choice.
-3. Open your browser and navigate to the extensions page:
-   - Google Chrome: `chrome://extensions/`
-   - Microsoft Edge: `edge://extensions/`
-   - Brave: `brave://extensions/`
-4. Turn on **Developer mode** in the top right corner of the page.
-5. Click the **Load unpacked** button.
+3. Open your browser and navigate to the extensions management page:
+
+   - **Google Chrome**: `chrome://extensions/`
+   - **Microsoft Edge**: `edge://extensions/`
+   - **Brave Browser**: `brave://extensions/`
+   - **Opera / Opera GX**: `opera://extensions/`
+   - **Vivaldi**: `vivaldi://extensions/`
+   - **Yandex Browser**: `browser://extensions/`
+   - **Mozilla Firefox**: `about:debugging#/runtime/this-firefox`
+
+4. Enable **Developer mode** in the top right corner of the page (for Chromium-based browsers).
+5. Click the **Load unpacked** button (for Firefox, click **Load Temporary Add-on** and select `manifest.json`).
 6. Select the folder containing the extension files.
 
 ---
