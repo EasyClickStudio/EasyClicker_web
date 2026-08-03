@@ -1,2 +1,2 @@
-# EasyClicker_web_extention
+# EasyClicker web extention
 Simple and reliable Autoclicker browser extension
