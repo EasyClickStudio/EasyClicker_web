@@ -1,132 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <style>
-    * { box-sizing: border-box; }
-    
-    html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #1A1B1E;
-      border-radius: 14px;
-      overflow: hidden;
-    }
+let config = {
+  ac_interval: 100,
+  ac_offset: 20,
+  ac_hk: 'F8'
+};
 
-    body {
-      width: 290px;
-      padding: 14px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #F3F4F6;
-      user-select: none;
-    }
+let binding = false;
 
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-      padding: 0 2px;
-    }
-    .header img {
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-    }
-    .header h1 {
-      font-size: 16px;
-      font-weight: 700;
-      margin: 0;
-      color: #F3F4F6;
-    }
+const RU_TO_EN = {
+  'Й':'Q','Ц':'W','У':'E','К':'R','Е':'T','Н':'Y','Г':'U','Ш':'I','Щ':'O','З':'P','Х':'[','Ъ':']',
+  'Ф':'A','Ы':'S','В':'D','А':'F','П':'G','Р':'H','О':'J','Л':'K','Д':'L','Ж':';','Э':"'",
+  'Я':'Z','Ч':'X','С':'C','М':'V','И':'B','Т':'N','Ь':'M','Б':',','Ю':'.'
+};
 
-    .card {
-      background-color: #2B2D31;
-      border: 1px solid #3F4147;
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+function normalizeKey(e) {
+  if (!e) return '';
+  if (e.code && e.code.startsWith('Key')) return e.code.replace('Key', '').toUpperCase();
+  if (e.code && e.code.startsWith('Digit')) return e.code.replace('Digit', '');
 
-    label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #CBD5E1;
-      display: block;
-      margin-bottom: 3px;
-    }
+  let keyStr = (e.key || '').toUpperCase();
+  if (keyStr === ' ') return 'SPACE';
+  if (RU_TO_EN[keyStr]) return RU_TO_EN[keyStr];
+  return keyStr;
+}
 
-    input[type="number"] {
-      width: 100%;
-      background-color: #1E1F22;
-      border: 1px solid #3F4147;
-      border-radius: 6px;
-      color: #F3F4F6;
-      padding: 7px 10px;
-      font-size: 12px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    input[type="number"]:focus {
-      border-color: #2563EB;
-    }
+chrome.storage.local.get(config, (saved) => {
+  config = { ...config, ...saved };
+  document.getElementById('ac_interval').value = config.ac_interval;
+  document.getElementById('ac_offset').value = config.ac_offset;
+  document.getElementById('ac_hk_btn').textContent = `[${config.ac_hk}] (Click to Set)`;
+});
 
-    .btn-hotkey {
-      width: 100%;
-      background-color: #3F4147;
-      color: #F3F4F6;
-      border: 1px solid #4E5058;
-      border-radius: 6px;
-      padding: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.15s;
-    }
-    .btn-hotkey:hover { background-color: #4E5058; }
-    .btn-hotkey.binding {
-      background-color: #D97706;
-      color: #FFFFFF;
-      border-color: #F59E0B;
-    }
+document.getElementById('kofiLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  chrome.tabs.create({ url: 'https://ko-fi.com/easyclickstudio' });
+});
 
-    .status-lbl {
-      text-align: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: #EF4444;
-      margin-top: 2px;
-    }
-  </style>
-</head>
-<body>
+function saveAndNotify() {
+  chrome.storage.local.set(config, () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0] && tabs[0].id) {
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'updateConfig', config }, () => {
+          if (chrome.runtime.lastError) {}
+        });
+      }
+    });
+  });
+}
 
-  <div class="header">
-    <img src="icon.png" alt="logo" onerror="this.style.display='none'">
-    <h1>EasyClicker</h1>
-  </div>
+['ac_interval', 'ac_offset'].forEach(id => {
+  document.getElementById(id).addEventListener('input', (e) => {
+    config[id] = parseFloat(e.target.value) || 0;
+    saveAndNotify();
+  });
+});
 
-  <div class="card">
-    <div>
-      <label>Click Interval (ms):</label>
-      <input type="number" id="ac_interval" value="100" min="10">
-    </div>
+const hkBtn = document.getElementById('ac_hk_btn');
+hkBtn.addEventListener('click', () => {
+  binding = true;
+  hkBtn.textContent = '>> PRESS ANY KEY <<';
+  hkBtn.classList.add('binding');
+});
 
-    <div>
-      <label>Random Offset (± ms):</label>
-      <input type="number" id="ac_offset" value="20" min="0">
-    </div>
+document.addEventListener('keydown', (e) => {
+  if (!binding) return;
+  e.preventDefault();
 
-    <div>
-      <label>Global Start/Stop Hotkey:</label>
-      <button id="ac_hk_btn" class="btn-hotkey">[F8] (Click to Set)</button>
-    </div>
+  const cleanKey = normalizeKey(e);
+  config.ac_hk = cleanKey;
+  hkBtn.textContent = `[${cleanKey}] (Click to Set)`;
+  hkBtn.classList.remove('binding');
 
-    <div id="ac_status" class="status-lbl">Status: STOPPED</div>
-  </div>
-
-  <script src="popup.js"></script>
-</body>
-</html>
+  binding = false;
+  saveAndNotify();
+});
