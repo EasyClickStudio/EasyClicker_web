@@ -30,6 +30,11 @@ chrome.storage.local.get(config, (saved) => {
   document.getElementById('ac_hk_btn').textContent = `[${config.ac_hk}] (Click to Set)`;
 });
 
+document.getElementById('kofiLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  chrome.tabs.create({ url: 'https://ko-fi.com/easyclickstudio' });
+});
+
 function saveAndNotify() {
   chrome.storage.local.set(config, () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
