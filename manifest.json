@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "EasyClicker Web",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Simple and reliable Autoclicker browser extension",
   "permissions": ["storage", "activeTab"],
   "action": {
